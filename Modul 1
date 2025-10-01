@@ -1,0 +1,57 @@
+IMPLEMENTASI
+--> Pembuatan Basis Data
+    create database kampus;
+
+--> Menghapus Basis Data
+    drop database kampus;
+
+--> Membuat Tabel Dalam Basis Data
+    create table mahasiswa (
+    Nim varchar(50) primary key,
+    Nama varchar(100),
+    Alamat varchar(50)
+    );
+
+
+--> Mengisi Tabel
+    insert into mahasiswa (Nim, Nama, Prodi) values ('132300', 'Luna Lovegood', 'hufflepuff');
+
+
+STUDY KASUS
+--> show databases;
+--> ceate database kuliah;
+--> use kuliah;
+--> create table Dosen (
+    NIDN Varchar(20) primary key,
+    Nama Varchar(100),
+    Fungsional VArchar(50)
+    );
+--> create table Mahasiswa (
+    NIM int primary key,
+    Nama Varchar (100),
+    Prodi Varchar (50)
+    );
+--> create table Matkul (
+    MKID Varchar (50) primary key,
+    Nama_Matkul Varchar (100),
+    Pengampu Varchar (150)
+    );
+--> create table Nilai (
+    ID_Nilai Varchar(20) primary key, 
+    NIM int,
+    MKID Varchar(50),
+    Nilai int,
+    foreign key (NIM) references Mahasiswa (NIM),
+    foreign key (MKID) references Matkul (MKID)
+     );
+--> insert into Dosen (NIDN, Nama, Fungsional) values ('J1308M', 'Snape', 'Ramuan');
+--> insert into Mahasiswa (NIM, Nama, Prodi) values (132300, 'Luna Lovegood', 'Hufflepuff');
+--> insert into Matkul (MKID, Nama_Matkul, Pengampu) values ('R100N', 'Ramuan', 'Snape');
+--> insert into nilai (ID_Nilai, NIM, MKID, Nilai) values ('A1200', 132300, 'R100N', 100);
+
+--> select * from Dosen;
+--> select * from Mahasiswa;
+--> select * from Matkul;
+--> select * from Nilai;
+
+    
