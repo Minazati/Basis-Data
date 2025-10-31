@@ -1,0 +1,135 @@
+--> ceate database siakad;
+mysql> use siakad;
+
+Database changed
+
+mysql> create table Dosen (
+
+    -> ID_Dosen int auto_increment primary key,
+
+    -> Nama_Dosen varchar(100) not null,
+
+    -> NIP varchar(30) unique not null,
+
+    -> Email varchar(100) unique not null
+
+    -> );
+
+
+mysql> create table Mata_Kuliah (
+
+    -> Kode_Matkul varchar(10) primary key,
+
+    -> Nama_Matkul varchar (100) not null,
+
+    -> SKS int not null,
+
+    -> Semester int not null
+
+    -> );
+
+
+mysql> create table Distribusi_Matkul (
+
+    -> ID_Dosen int,
+
+    -> Kode_Matkul varchar (10),
+
+    -> Tahun_Ajar varchar (20),
+
+    -> Kelas varchar (10),
+
+    -> foreign key (ID_Dosen) references Dosen (ID_Dosen),
+
+    -> foreign key (Kode_Matkul) references Mata_Kuliah (Kode_Matkul)
+
+    -> );
+
+
+mysql> insert into Dosen (Nama_Dosen, NIP, Email) values
+
+    -> ('Dr. Mark Lee, M.Psi', 19990802, 'marklee@dreamverse.ac.id'),
+
+    -> ('Dr. Lee Haechan, M.Pd', 20000606, 'leehaechan@dreamverse.ac.id'),
+
+    -> ('Dr. Lee Jeno, M.Psi', 20000423, 'leejeno@dreamverse.ac.id'),
+
+    -> ('Dr. Na Jaemin, M.Psi', 20000813, 'najaemin@dreamverse.ac.id'),
+
+    -> ('Dr. Huang Renjun, M.Psi', 20000323, 'huangrenjun@dreamverse.ac.id'),
+
+    -> ('Prof. Zhong Chenle, Ph.D', 20011122, 'zhongchenle@dreamverse.ac.id'),
+
+    -> ('Park Jisung, M.Psi', 20020205, 'parkjisung@dreamverse.ac.id'),
+
+    -> ('Jang Wonyoung, M.Psi', 20040831, 'jangwonyoung@dreamverse.ac.id'),
+
+    -> ('Kim Winter, M.Psi', 20010101, 'kimwinter@dreamverse.ac.id'),
+
+    -> ('Prof. Kim Jisoo, Ph.D', 19950103, 'kimjisoo@dreamverse.ac.id');
+
+
+mysql> insert into Mata_Kuliah (Kode_Matkul, Nama_Matkul, SKS, Semester) values
+
+    -> ('PSY201', 'Psikologi Komunikasi', 3, 3),
+
+    -> ('PSY202', 'Psikologi Pendidikan', 3, 4),
+
+    -> ('PSY203', 'Psikologi Kognitif', 3, 5),
+
+    -> ('PSY204', 'Psikologi Kepribadian', 3, 3),
+
+    -> ('PSY205', 'Psikologi Persepsi dan Sensasi', 2, 6),
+
+    -> ('PSY206', 'Psikologi Industri dan Organisasi', 3, 7),
+
+    -> ('PSY207', 'Psikologi Perkembangan', 3, 2),
+
+    -> ('PSY208', 'Psikologi Sosial', 3, 1),
+
+    -> ('PSY209', 'Psikologi Eksperimen', 3, 6),
+
+    -> ('PSY210', 'Psikologi Emosi', 2, 1);
+
+mysql> insert into Distribusi_Matkul (ID_Dosen, Kode_Matkul, Tahun_Ajar, Kelas) values
+    -> (4, 'PSY204', 2025/2026, 'A'),
+    -> (4, 'PSY201', 2025/2026, 'B'),
+    -> (5, 'PSY205', 2025/2026, 'A'),
+    -> (5, 'PSY210', 2025/2026, 'B');
+
+mysql> SELECT * FROM Dosen;
+
+mysql> SELECT * FROM Mata_Kuliah;
+
+mysql> SELECT * FROM Distribusi_Matkul;
+
+mysql> select
+    -> d.ID_Dosen,
+    -> d.Nama_Dosen,
+    -> mk.Kode_Matkul,
+    -> mk.Nama_Matkul,
+    -> dm.Tahun_Ajar,
+    -> dm.Kelas
+    -> from Dosen d
+    -> INNER JOIN Distribusi_Matkul dm ON d.ID_Dosen = dm.ID_Dosen
+    -> INNER JOIN Mata_Kuliah mk ON dm.Kode_Matkul = mk.Kode_Matkul;
+
+mysql> SELECT
+    ->     d.ID_Dosen,
+    ->     d.Nama_Dosen,
+    ->     mk.Nama_Matkul AS Matkul_Diampu,
+    ->     dm.Tahun_Ajar,
+    ->     dm.Kelas
+    -> FROM dosen d
+    -> LEFT JOIN distribusi_matkul dm ON d.ID_Dosen = dm.ID_Dosen
+    -> LEFT JOIN mata_kuliah mk ON dm.Kode_Matkul = mk.Kode_Matkul;
+
+mysql> select
+    -> mk.Kode_Matkul,
+    -> mk.Nama_Matkul,
+    -> d.Nama_Dosen AS Dosen_Pengampu,
+    -> dm.Tahun_Ajar,
+    -> dm.Kelas
+    -> from Distribusi_Matkul dm
+    -> RIGHT JOIN Mata_Kuliah mk ON dm.Kode_Matkul = mk.Kode_Matkul
+    -> RIGHT JOIN Dosen d ON dm.ID_Dosen = d.ID_Dosen;
